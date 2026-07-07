@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "stage": "PRODUCTION_READY",
+  "components": {
+    "gateways": ["services/api"],
+    "interfaces": ["apps/web", "apps/platform", "apps/admin"],
+    "packages": ["packages/shared", "packages/auth", "packages/database", "packages/ui", "packages/config", "packages/types"]
+  },
+  "deploymentAssets": {
+    "compose": "docker-compose.prod.yml",
+    "proxy": "nginx/default.conf",
+    "backupScript": "scripts/db-backup.sh",
+    "restoreScript": "scripts/db-restore.sh"
+  },
+  "verifications": {
+    "e2e": "scripts/test-e2e.ts",
+    "build": "pnpm build"
+  }
+}
