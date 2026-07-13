@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #00A3FF; /* Cyan from logo */
+  --primary-dark: #0082CC; 
+  --secondary: #004385; /* Darker royal/navy blue */
+  --soft-blue: #F0F7FF;
+  --light-gray: #F8FAFC;
+  --border-color: #E2E8F0;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-secondary: var(--secondary);
+  --color-soft-blue: var(--soft-blue);
+  --color-light-gray: var(--light-gray);
+  --color-border-color: var(--border-color);
+
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-poppins);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), sans-serif;
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes eagle-fly {
+  0% {
+    transform: translate(-50vw, 50vh) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.1;
+  }
+  80% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(100vw, -100vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes product-fade {
+  0% { opacity: 0; transform: translateY(8px); }
+  8% { opacity: 1; transform: translateY(0); }
+  88% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes trust-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ==========================================
+   ANIMATION CLASSES
+   ========================================== */
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out forwards;
+}
+
+.animate-reveal {
+  animation: reveal 0.7s ease-out forwards;
+}
+
+.animate-counter {
+  animation: counter-up 0.5s ease-out forwards;
+}
+
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: var(--light-gray);
+  border-radius: 4px;
+}
+
+.eagle-fly {
+  animation: eagle-fly 15s linear infinite;
+}
+
+/* ==========================================
+   SCROLL REVEAL
+   ========================================== */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 100ms; }
+.reveal-delay-2 { transition-delay: 200ms; }
+.reveal-delay-3 { transition-delay: 300ms; }
+.reveal-delay-4 { transition-delay: 400ms; }
+.reveal-delay-5 { transition-delay: 500ms; }
+
+/* ==========================================
+   HOVER ELEVATION
+   ========================================== */
+
+.hover-elevate {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.hover-elevate:hover {
+  box-shadow: 0 8px 32px rgba(0, 67, 133, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   BUTTON MICRO-INTERACTIONS
+   ========================================== */
+
+button:active:not(:disabled),
+a[role="button"]:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================
+   FOCUS STATES
+   ========================================== */
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================
+   PRODUCT SHOWCASE
+   ========================================== */
+
+.product-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+  transform: translateY(8px);
+}
+
+.product-slide.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================
+   TRUST BAR SCROLL
+   ========================================== */
+
+.trust-scroll-track {
+  animation: trust-scroll 20s linear infinite;
+}
+
+.trust-scroll-track:hover {
+  animation-play-state: paused;
+}
