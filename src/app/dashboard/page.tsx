@@ -59,7 +59,7 @@ export default async function DashboardPage() {
       SELECT id, full_name, email, phone, company, preferred_date, preferred_time, purpose, message, created_at
       FROM consultation_bookings
       ORDER BY created_at DESC;
-    `;
+    ` as DBBooking[];
   } catch (error) {
     console.error("Failed to fetch consultation bookings from database:", error);
   }
@@ -69,7 +69,7 @@ export default async function DashboardPage() {
       SELECT id, full_name, company, email, phone, country, linkedin, website, services, project_title, description, business_goal, target_audience, expected_features, technologies, existing_website, budget, timeline, deadline, file_url, created_at
       FROM project_inquiries
       ORDER BY created_at DESC;
-    `;
+    ` as DBInquiry[];
   } catch (error) {
     console.error("Failed to fetch project inquiries from database:", error);
   }
