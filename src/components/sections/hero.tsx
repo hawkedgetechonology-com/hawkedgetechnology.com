@@ -27,6 +27,7 @@ const PRODUCTS = [
       { label: "Team Velocity", value: "94%", trend: "↑ 12% vs last sprint" },
       { label: "On-Time Rate", value: "98.2%", trend: "Excellent" },
     ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-and-numbers-31908-large.mp4",
     ui: "dashboard",
   },
   {
@@ -42,6 +43,7 @@ const PRODUCTS = [
       { label: "Pipeline Value", value: "$2.4M", trend: "↑ 18% QoQ" },
       { label: "Retention Rate", value: "96%", trend: "Industry-leading" },
     ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-cyber-security-system-scanning-screens-and-data-34538-large.mp4",
     ui: "crm",
   },
   {
@@ -57,6 +59,7 @@ const PRODUCTS = [
       { label: "Avg. NPS Score", value: "72", trend: "World-class" },
       { label: "Feedback Response", value: "<2h", trend: "Average reply time" },
     ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-abstract-digital-technology-background-40742-large.mp4",
     ui: "studio",
   },
   {
@@ -72,6 +75,7 @@ const PRODUCTS = [
       { label: "Win Rate", value: "42%", trend: "↑ 9% vs industry avg" },
       { label: "Avg. Close Time", value: "4.2d", trend: "Down from 8.1d" },
     ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-programming-code-on-a-computer-screen-close-up-34537-large.mp4",
     ui: "proposal",
   },
   {
@@ -87,6 +91,7 @@ const PRODUCTS = [
       { label: "Insights Generated", value: "840", trend: "This month" },
       { label: "Accuracy Score", value: "97.1%", trend: "Verified" },
     ],
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-computer-server-room-with-blinking-lights-40746-large.mp4",
     ui: "discovery",
   },
 ];
@@ -158,25 +163,21 @@ function ProductShowcase() {
             ))}
           </div>
 
-          {/* Chart mock */}
-          <div className="bg-light-gray rounded-xl p-4 border border-border-color">
-            <div className="flex items-end gap-1.5 h-16">
-              {[35, 55, 40, 70, 60, 85, 65, 90, 75, 95, 80, 100].map((h, i) => (
-                <div
-                  key={i}
-                  className="flex-1 rounded-sm transition-all duration-700"
-                  style={{
-                    height: `${h}%`,
-                    background: i >= 9 ? product.accent : `${product.accent}30`,
-                    transitionDelay: `${i * 40}ms`,
-                  }}
-                />
-              ))}
-            </div>
-            <div className="flex justify-between mt-2">
-              <span className="text-xs text-foreground/40">Jan</span>
-              <span className="text-xs text-foreground/40">Jun</span>
-              <span className="text-xs text-foreground/40">Dec</span>
+          {/* Video showcase of technology in action */}
+          <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-border-color shadow-inner bg-black">
+            <video
+              key={product.id}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src={product.videoUrl} type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-3 left-3 bg-white/10 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] text-white border border-white/20 font-semibold tracking-wider uppercase">
+              Technology Loop
             </div>
           </div>
         </div>

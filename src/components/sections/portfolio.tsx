@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Section, SectionHeader } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -14,7 +15,7 @@ const projects = [
     technology: ["Next.js", "NestJS", "PostgreSQL", "Redis", "AWS", "React Native"],
     impact: "Reduced average route delays by 34%, cut fuel waste by 18%, and eliminated 6 hours of daily manual reconciliation work.",
     accentColor: "#00A3FF",
-    bgPattern: "dashboard",
+    imageUrl: "/nexus_fleet_mockup.png",
   },
   {
     title: "Finova Wealth — Client Portal & CRM",
@@ -25,7 +26,7 @@ const projects = [
     technology: ["React", "Node.js", "PostgreSQL", "Docker", "TypeScript", "AWS"],
     impact: "Achieved full GDPR and MiFID II compliance, reduced client onboarding time from 5 days to 6 hours, and improved advisor productivity by 40%.",
     accentColor: "#004385",
-    bgPattern: "crm",
+    imageUrl: "/finova_wealth_mockup.png",
   },
   {
     title: "MedBridge — Healthcare Coordination System",
@@ -36,56 +37,22 @@ const projects = [
     technology: ["Next.js", "NestJS", "PostgreSQL", "Redis", "TypeScript", "AWS"],
     impact: "Reduced referral completion time by 61%, decreased missed appointments by 28%, and gave care teams a single source of truth for patient journeys.",
     accentColor: "#00A3FF",
-    bgPattern: "health",
+    imageUrl: "/medbridge_healthcare_mockup.png",
   },
 ];
 
 function CaseStudyVisual({ project }: { project: typeof projects[0] }) {
   return (
-    <div
-      className="w-full aspect-[16/9] rounded-xl overflow-hidden relative border border-border-color"
-      style={{ background: `${project.accentColor}08` }}
-    >
-      {/* Mini dashboard mock */}
-      <div className="absolute inset-4 flex flex-col gap-2">
-        {/* Top bar */}
-        <div className="flex items-center gap-2">
-          <div className="h-2 w-16 rounded-full" style={{ background: `${project.accentColor}40` }} />
-          <div className="h-2 w-8 rounded-full bg-border-color" />
-          <div className="ml-auto h-2 w-10 rounded-full bg-border-color" />
-        </div>
-        {/* Stat row */}
-        <div className="flex gap-2 mt-1">
-          {[0, 1, 2].map(i => (
-            <div key={i} className="flex-1 bg-white rounded-lg p-2 border border-border-color shadow-sm">
-              <div className="h-1.5 w-8 rounded-full mb-1.5" style={{ background: `${project.accentColor}50` }} />
-              <div className="h-3 w-10 rounded-sm" style={{ background: `${project.accentColor}80` }} />
-            </div>
-          ))}
-        </div>
-        {/* Chart area */}
-        <div className="flex-1 bg-white rounded-lg border border-border-color shadow-sm p-2 flex items-end gap-1">
-          {[40, 65, 50, 80, 70, 90, 75, 95, 85, 100].map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-sm"
-              style={{
-                height: `${h}%`,
-                background: i >= 7 ? project.accentColor : `${project.accentColor}25`,
-              }}
-            />
-          ))}
-        </div>
-        {/* Table mock */}
-        <div className="bg-white rounded-lg border border-border-color shadow-sm p-2 space-y-1">
-          {[0, 1].map(i => (
-            <div key={i} className="flex gap-2 items-center">
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.accentColor }} />
-              <div className="h-1.5 flex-1 rounded-full bg-border-color" />
-              <div className="h-1.5 w-8 rounded-full" style={{ background: `${project.accentColor}40` }} />
-            </div>
-          ))}
-        </div>
+    <div className="w-full aspect-[16/9] rounded-xl overflow-hidden relative border border-border-color shadow-sm hover:shadow-md transition-shadow duration-300 bg-light-gray flex items-center justify-center">
+      <div className="relative w-full h-full">
+        <Image
+          src={project.imageUrl}
+          alt={project.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 40vw"
+          className="object-cover"
+          priority
+        />
       </div>
     </div>
   );
