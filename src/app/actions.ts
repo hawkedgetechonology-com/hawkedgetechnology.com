@@ -1,6 +1,6 @@
 "use server";
 
-import { sql } from "@/lib/db";
+import { getSql } from "@/lib/db";
 import { z } from "zod";
 import { headers } from "next/headers";
 
@@ -100,7 +100,7 @@ export async function submitProjectInquiry(rawData: ProjectInquiryData) {
 
   try {
     // Neon postgres supports passing JS arrays directly to array columns
-    await sql`
+    await getSql()`
       INSERT INTO project_inquiries (
         full_name, company, email, phone, country, linkedin, website,
         services, project_title, description, business_goal, target_audience, 
@@ -155,7 +155,7 @@ export async function submitConsultation(rawData: ConsultationData) {
   const data = validationResult.data;
 
   try {
-    await sql`
+    await getSql()`
       INSERT INTO consultation_bookings (
         full_name, email, phone, company, preferred_date, preferred_time, purpose, message
       ) VALUES (

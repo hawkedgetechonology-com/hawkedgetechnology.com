@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { sql } from "@/lib/db";
+import { getSql } from "@/lib/db";
 import { createSession, deleteSession, verifyPassword } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -27,7 +27,7 @@ export async function loginAction(prevState: LoginState, formData: FormData): Pr
   let success = false;
   try {
     // Look up user in Neon DB
-    const users = await sql`
+    const users = await getSql()`
       SELECT id, username, password_hash, role 
       FROM users 
       WHERE username = ${username} 

@@ -1,6 +1,6 @@
 "use server";
 
-import { sql } from "@/lib/db";
+import { getSql } from "@/lib/db";
 import { getSession } from "@/lib/session";
 import { revalidatePath } from "next/cache";
 
@@ -11,7 +11,7 @@ export async function deleteBooking(id: number) {
   }
 
   try {
-    await sql`
+    await getSql()`
       DELETE FROM consultation_bookings WHERE id = ${id};
     `;
     revalidatePath("/dashboard");
@@ -29,7 +29,7 @@ export async function deleteInquiry(id: number) {
   }
 
   try {
-    await sql`
+    await getSql()`
       DELETE FROM project_inquiries WHERE id = ${id};
     `;
     revalidatePath("/dashboard");

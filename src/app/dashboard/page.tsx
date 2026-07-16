@@ -1,7 +1,7 @@
 import React from "react";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import { sql } from "@/lib/db";
+import { getSql } from "@/lib/db";
 import { DashboardClient } from "./dashboard-client";
 
 // Ensure this route is fully dynamic so it fetches fresh bookings on every visit
@@ -26,7 +26,7 @@ export default async function DashboardPage() {
   let rawInquiries: any[] = [];
 
   try {
-    const result = await sql`
+    const result = await getSql()`
       SELECT id, full_name, email, phone, company, preferred_date, preferred_time, purpose, message, created_at
       FROM consultation_bookings
       ORDER BY created_at DESC;
@@ -37,7 +37,7 @@ export default async function DashboardPage() {
   }
 
   try {
-    const result = await sql`
+    const result = await getSql()`
       SELECT id, full_name, company, email, phone, country, linkedin, website, services, project_title, description, business_goal, target_audience, expected_features, technologies, existing_website, budget, timeline, deadline, file_url, created_at
       FROM project_inquiries
       ORDER BY created_at DESC;
