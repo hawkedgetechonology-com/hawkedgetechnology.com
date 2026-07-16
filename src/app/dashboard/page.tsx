@@ -7,14 +7,51 @@ import { DashboardClient } from "./dashboard-client";
 // Ensure this route is fully dynamic so it fetches fresh bookings on every visit
 export const dynamic = "force-dynamic";
 
+interface DBBooking {
+  id: number;
+  full_name: string;
+  email: string;
+  phone: string;
+  company: string | null;
+  preferred_date: string;
+  preferred_time: string;
+  purpose: string;
+  message: string | null;
+  created_at: Date | string;
+}
+
+interface DBInquiry {
+  id: number;
+  full_name: string;
+  company: string | null;
+  email: string;
+  phone: string | null;
+  country: string | null;
+  linkedin: string | null;
+  website: string | null;
+  services: string[];
+  project_title: string;
+  description: string;
+  business_goal: string;
+  target_audience: string;
+  expected_features: string;
+  technologies: string | null;
+  existing_website: string | null;
+  budget: string;
+  timeline: string;
+  deadline: string | null;
+  file_url: string | null;
+  created_at: Date | string;
+}
+
 export default async function DashboardPage() {
   const session = await getSession();
   if (!session) {
     redirect("/login");
   }
 
-  let bookings: any[] = [];
-  let inquiries: any[] = [];
+  let bookings: DBBooking[] = [];
+  let inquiries: DBInquiry[] = [];
 
   try {
     // Fetch data directly from Neon database on the server
