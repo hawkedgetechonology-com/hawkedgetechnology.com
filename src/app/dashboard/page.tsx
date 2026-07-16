@@ -7,41 +7,11 @@ import { DashboardClient } from "./dashboard-client";
 // Ensure this route is fully dynamic so it fetches fresh bookings on every visit
 export const dynamic = "force-dynamic";
 
-interface DBBooking {
-  id: number;
-  full_name: string;
-  email: string;
-  phone: string;
-  company: string | null;
-  preferred_date: string;
-  preferred_time: string;
-  purpose: string;
-  message: string | null;
-  created_at: Date | string;
-}
-
-interface DBInquiry {
-  id: number;
-  full_name: string;
-  company: string | null;
-  email: string;
-  phone: string | null;
-  country: string | null;
-  linkedin: string | null;
-  website: string | null;
-  services: string[];
-  project_title: string;
-  description: string;
-  business_goal: string;
-  target_audience: string;
-  expected_features: string;
-  technologies: string | null;
-  existing_website: string | null;
-  budget: string;
-  timeline: string;
-  deadline: string | null;
-  file_url: string | null;
-  created_at: Date | string;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function toStr(v: any): string {
+  if (!v) return "";
+  if (v instanceof Date) return v.toISOString();
+  return String(v);
 }
 
 export default async function DashboardPage() {
@@ -50,39 +20,69 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  let bookings: DBBooking[] = [];
-  let inquiries: DBInquiry[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let rawBookings: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let rawInquiries: any[] = [];
 
   try {
-    // Fetch data directly from Neon database on the server
-    bookings = (await sql`
+    const result = await sql`
       SELECT id, full_name, email, phone, company, preferred_date, preferred_time, purpose, message, created_at
       FROM consultation_bookings
       ORDER BY created_at DESC;
-    `) as unknown as DBBooking[];
+    `;
+    rawBookings = [...result];
   } catch (error) {
     console.error("Failed to fetch consultation bookings from database:", error);
   }
 
   try {
-    inquiries = (await sql`
+    const result = await sql`
       SELECT id, full_name, company, email, phone, country, linkedin, website, services, project_title, description, business_goal, target_audience, expected_features, technologies, existing_website, budget, timeline, deadline, file_url, created_at
       FROM project_inquiries
       ORDER BY created_at DESC;
-    `) as unknown as DBInquiry[];
+    `;
+    rawInquiries = [...result];
   } catch (error) {
     console.error("Failed to fetch project inquiries from database:", error);
   }
 
-  // Serialize date objects for passing down to the Client Component
-  const serializedBookings = bookings.map((b) => ({
-    ...b,
-    created_at: b.created_at instanceof Date ? b.created_at.toISOString() : String(b.created_at),
+  // Serialize: convert all Date objects to ISO strings for safe client transfer
+  const serializedBookings = rawBookings.map((b) => ({
+    id: Number(b.id),
+    full_name: String(b.full_name ?? ""),
+    email: String(b.email ?? ""),
+    phone: String(b.phone ?? ""),
+    company: b.company ? String(b.company) : null,
+    preferred_date: String(b.preferred_date ?? ""),
+    preferred_time: String(b.preferred_time ?? ""),
+    purpose: String(b.purpose ?? ""),
+    message: b.message ? String(b.message) : null,
+    created_at: toStr(b.created_at),
   }));
 
-  const serializedInquiries = inquiries.map((i) => ({
-    ...i,
-    created_at: i.created_at instanceof Date ? i.created_at.toISOString() : String(i.created_at),
+  const serializedInquiries = rawInquiries.map((i) => ({
+    id: Number(i.id),
+    full_name: String(i.full_name ?? ""),
+    company: i.company ? String(i.company) : null,
+    email: String(i.email ?? ""),
+    phone: i.phone ? String(i.phone) : null,
+    country: i.country ? String(i.country) : null,
+    linkedin: i.linkedin ? String(i.linkedin) : null,
+    website: i.website ? String(i.website) : null,
+    services: Array.isArray(i.services) ? i.services.map(String) : [],
+    project_title: String(i.project_title ?? ""),
+    description: String(i.description ?? ""),
+    business_goal: String(i.business_goal ?? ""),
+    target_audience: String(i.target_audience ?? ""),
+    expected_features: String(i.expected_features ?? ""),
+    technologies: i.technologies ? String(i.technologies) : null,
+    existing_website: i.existing_website ? String(i.existing_website) : null,
+    budget: String(i.budget ?? ""),
+    timeline: String(i.timeline ?? ""),
+    deadline: i.deadline ? String(i.deadline) : null,
+    file_url: i.file_url ? String(i.file_url) : null,
+    created_at: toStr(i.created_at),
   }));
 
   return (
