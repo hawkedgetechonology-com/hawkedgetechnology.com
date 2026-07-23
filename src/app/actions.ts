@@ -1,6 +1,5 @@
 "use server";
 
-import { getSql } from "@/lib/db";
 import { z } from "zod";
 import { headers } from "next/headers";
 
@@ -99,35 +98,15 @@ export async function submitProjectInquiry(rawData: ProjectInquiryData) {
   const data = validationResult.data;
 
   try {
-    // Neon postgres supports passing JS arrays directly to array columns
-    await getSql()`
-      INSERT INTO project_inquiries (
-        full_name, company, email, phone, country, linkedin, website,
-        services, project_title, description, business_goal, target_audience, 
-        expected_features, technologies, existing_website, budget,
-        timeline, deadline, file_url
-      ) VALUES (
-        ${data.fullName},
-        ${data.companyName || null},
-        ${data.email},
-        ${data.phone || null},
-        ${data.country || null},
-        ${data.linkedin || null},
-        ${data.website || null},
-        ${data.services as string[]},
-        ${data.projectTitle},
-        ${data.description},
-        ${data.businessGoal},
-        ${data.targetAudience},
-        ${data.expectedFeatures},
-        ${data.preferredTechnologies || null},
-        ${data.existingWebsite || null},
-        ${data.budget},
-        ${data.timeline},
-        ${data.deadline || null},
-        ${data.file || null}
-      )
-    `;
+    const res = await fetch('http://localhost:3333/leads/inquiries', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to save inquiry');
+    }
 
     return { success: true };
   } catch (error) {
@@ -155,20 +134,15 @@ export async function submitConsultation(rawData: ConsultationData) {
   const data = validationResult.data;
 
   try {
-    await getSql()`
-      INSERT INTO consultation_bookings (
-        full_name, email, phone, company, preferred_date, preferred_time, purpose, message
-      ) VALUES (
-        ${data.fullName},
-        ${data.email},
-        ${data.phone},
-        ${data.company || null},
-        ${data.preferredDate},
-        ${data.preferredTime},
-        ${data.purpose},
-        ${data.message || null}
-      )
-    `;
+    const res = await fetch('http://localhost:3333/leads/consultations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to save consultation');
+    }
 
     return { success: true };
   } catch (error) {

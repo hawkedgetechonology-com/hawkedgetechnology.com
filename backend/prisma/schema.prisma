@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  CLIENT
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ConsultationBooking {
+  id            Int      @id @default(autoincrement())
+  fullName      String
+  email         String
+  phone         String
+  company       String?
+  preferredDate String
+  preferredTime String
+  purpose       String
+  message       String?  @db.Text
+  createdAt     DateTime @default(now())
+}
+
+model ProjectInquiry {
+  id                   Int      @id @default(autoincrement())
+  fullName             String
+  company              String?
+  email                String
+  phone                String?
+  country              String?
+  linkedin             String?
+  website              String?
+  services             String[]
+  projectTitle         String
+  description          String   @db.Text
+  businessGoal         String   @db.Text
+  targetAudience       String   @db.Text
+  expectedFeatures     String   @db.Text
+  preferredTechnologies String?
+  existingWebsite      String?
+  budget               String
+  timeline             String
+  deadline             String?
+  fileUrl              String?
+  createdAt            DateTime @default(now())
+}

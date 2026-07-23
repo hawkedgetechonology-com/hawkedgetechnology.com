@@ -15,7 +15,11 @@ const NAV_LINKS = [
   { name: "Careers", href: "/careers" },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  isLoggedIn?: boolean;
+}
+
+export function Navbar({ isLoggedIn = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -59,6 +63,25 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
+          {isLoggedIn ? (
+            <>
+              <Link href="/workspace" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+                Workspace
+              </Link>
+              <form action={async () => {
+                const { logoutAction } = await import("@/lib/auth-actions");
+                await logoutAction();
+              }}>
+                <button type="submit" className="text-sm font-medium text-foreground hover:text-red-500 transition-colors">
+                  Sign Out
+                </button>
+              </form>
+            </>
+          ) : (
+            <Link href="/login" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+              Sign In
+            </Link>
+          )}
           <Link href="/contact">
             <Button variant="primary" className="cursor-pointer">Start Your Project</Button>
           </Link>
@@ -88,6 +111,33 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/workspace"
+                  className="text-base font-medium text-foreground hover:text-primary"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Workspace
+                </Link>
+                <form action={async () => {
+                  const { logoutAction } = await import("@/lib/auth-actions");
+                  await logoutAction();
+                }}>
+                  <button type="submit" className="text-base font-medium text-foreground hover:text-red-500 text-left w-full">
+                    Sign Out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="text-base font-medium text-foreground hover:text-primary"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+            )}
             <Link href="/contact">
               <Button variant="primary" className="w-full justify-center cursor-pointer" onClick={() => setIsMobileMenuOpen(false)}>
                 Start Your Project

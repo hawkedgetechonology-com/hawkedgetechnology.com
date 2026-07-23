@@ -1,0 +1,76 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
+export declare class LeadsService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    createConsultation(data: Prisma.ConsultationBookingCreateInput): Promise<{
+        id: number;
+        email: string;
+        createdAt: Date;
+        fullName: string;
+        phone: string;
+        company: string | null;
+        preferredDate: string;
+        preferredTime: string;
+        purpose: string;
+        message: string | null;
+    }>;
+    getConsultations(): Promise<{
+        id: number;
+        email: string;
+        createdAt: Date;
+        fullName: string;
+        phone: string;
+        company: string | null;
+        preferredDate: string;
+        preferredTime: string;
+        purpose: string;
+        message: string | null;
+    }[]>;
+    createInquiry(data: Prisma.ProjectInquiryCreateInput): Promise<{
+        id: number;
+        email: string;
+        createdAt: Date;
+        fullName: string;
+        phone: string | null;
+        company: string | null;
+        country: string | null;
+        linkedin: string | null;
+        website: string | null;
+        services: string[];
+        projectTitle: string;
+        description: string;
+        businessGoal: string;
+        targetAudience: string;
+        expectedFeatures: string;
+        preferredTechnologies: string | null;
+        existingWebsite: string | null;
+        budget: string;
+        timeline: string;
+        deadline: string | null;
+        fileUrl: string | null;
+    }>;
+    getInquiries(): Promise<{
+        id: number;
+        email: string;
+        createdAt: Date;
+        fullName: string;
+        phone: string | null;
+        company: string | null;
+        country: string | null;
+        linkedin: string | null;
+        website: string | null;
+        services: string[];
+        projectTitle: string;
+        description: string;
+        businessGoal: string;
+        targetAudience: string;
+        expectedFeatures: string;
+        preferredTechnologies: string | null;
+        existingWebsite: string | null;
+        budget: string;
+        timeline: string;
+        deadline: string | null;
+        fileUrl: string | null;
+    }[]>;
+}

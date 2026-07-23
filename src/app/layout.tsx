@@ -43,19 +43,23 @@ export const metadata: Metadata = {
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { cookies } from "next/headers";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const isLoggedIn = cookieStore.has("auth_token");
+
   return (
     <html
       lang="en"
       className={`${inter.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} />
         <main className="flex-1 pt-24">{children}</main>
         <Footer />
       </body>

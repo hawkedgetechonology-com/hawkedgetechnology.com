@@ -1,0 +1,4 @@
+{
+  "step": "setup",
+  "data": "{\"agent\":\"antigravity\",\"ide\":\"vs code\",\"mcpConfigured\":false,\"mode\":\"defaults\",\"features\":\"database,auth\"}"
+}
